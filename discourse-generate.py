@@ -10,7 +10,7 @@ the_client = pytumblr.TumblrRestClient(
   'FILL ME IN', #consumer_key
   'FILL ME IN', #consumer_secret
   'FILL ME IN', #token_key
-  'FILL ME IN'  #token_secret
+  'FILL ME IN' #token_secret
 )
 
 the_title = "Discourse of " + datetime.date.today().strftime("%A, %d %B %Y")
