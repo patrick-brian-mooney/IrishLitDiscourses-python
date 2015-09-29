@@ -7,10 +7,10 @@ import datetime
 
 # Authenticate via OAuth
 the_client = pytumblr.TumblrRestClient(
-  'UnEiwRkKrqf9hkAzPtKOpOA1MehBAhhMsdk0wujT7wfnEZBW4M', #consumer_key
-  'sIKCOrMFqykmOdoxSMBEhTL7aqIOsIU99tZlOo8SyRFgJ35v6L', #consumer_secret
-  'oEf66bgxYDeXneXw1eMDrR5s1nLA8A7r84TxG7Xwp7fPpwIdfY', #token_key
-  'KaIAU66YdxX7D5WFvzKXBUeR8O8SoGxiWaIEe60WXYcS1lJGgd' #token_secret
+  'FILL ME IN', #consumer_key
+  'FILL ME IN', #consumer_secret
+  'FILL ME IN', #token_key
+  'FILL ME IN'  #token_secret
 )
 
 the_title = "Discourse of " + datetime.date.today().strftime("%A, %d %B %Y")
