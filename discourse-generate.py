@@ -43,7 +43,7 @@ def print_usage():
 
 def weighted_probability(the_length):
     """Make it more likely to post when more text is built up"""
-    return 1 - math.e ** (-2.5e-05 * the_length)
+    return 1 - math.e ** (-2.5e-05 * (the_length-3000))
 
 # OK, set up the constants we'll need.
 the_client = pytumblr.TumblrRestClient(
@@ -71,10 +71,10 @@ except IOError:
     log_it('ERROR: Couldn\'t open, or couldn\'t read, or couldn\'t close, the content file',0)
     sys.exit(2)
 
-the_minimum_roll = weighted_probability(len(the_content))
+the_maximum_roll = weighted_probability(len(the_content))
 the_dice_roll=random.random()
-log_it('INFO: Length of content is ' + str(len(the_content)) + '\n   and the dice roll was ' + str(the_dice_roll) + '\n   And the score necessary to post at that length is ' + str(the_minimum_roll),2)
-if len(the_content) > 3000 and the_dice_roll < the_minimum_roll:
+log_it('INFO: Length of content is ' + str(len(the_content)) + '\n   and the dice roll was ' + str(the_dice_roll) + '\n   And the score necessary to post at that length is ' + str(the_maximum_roll),2)
+if the_dice_roll < the_maximum_roll:
     # Make the request
     log_it('INFO: Attempting to post the content', 2)
     the_client.create_text(the_blog_name, state="published", slug=the_slug, tags=normal_tags + temporary_tags, title=the_title, tweet=the_title + ' [URL]', body=the_content)
