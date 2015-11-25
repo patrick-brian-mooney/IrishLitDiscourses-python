@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 """Script to post to AutoIrishLitDiscourses.tumblr.com. Really rough sketch of a
 script here. Not really meant for public use.
 
@@ -19,7 +19,7 @@ import random
 import pprint
 import sys
 
-import pytumblr
+from tumblpy import Tumblpy
 
 import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
 
@@ -32,18 +32,18 @@ patrick_logger.verbosity_level = 2
 def print_usage():
     """Print the docstring as a usage message to stdout"""
     patrick_logger.log_it("INFO: print_usage() was called")
-    print __doc__
+    print(__doc__)
 
 def weighted_probability(the_length):
     """Make it more likely to post when more text is built up"""
     return 1 - math.e ** (-2.5e-05 * (the_length-3000))
 
 # OK, set up the constants we'll need.
-the_client = pytumblr.TumblrRestClient(
-  'FILL ME IN', #consumer_key
-  'FILL ME IN', #consumer_secret
-  'FILL ME IN', #token_key
-  'FILL ME IN' #token_secret
+the_client = Tumblpy(
+   'FILL ME IN', #consumer_key
+   'FILL ME IN', #consumer_secret
+   'FILL ME IN', #token_key
+   'FILL ME IN' #token_secret
 )
 
 the_title = "Discourse of " + datetime.date.today().strftime("%A, %d %B %Y")
@@ -61,7 +61,7 @@ try:
     the_content = the_file.read()
     the_file.close()
 except IOError:
-    patrick_logger.log_it('ERROR: Couldn\'t open, or couldn\'t read, or couldn\'t close, the content file', 0)
+    patrick_logger.log_it("ERROR: Couldn't open, or couldn't read, or couldn't close, the content file", 0)
     sys.exit(2)
 
 the_maximum_roll = weighted_probability(len(the_content))
@@ -70,7 +70,14 @@ patrick_logger.log_it('INFO: Length of content is ' + str(len(the_content)) + '\
 if the_dice_roll < the_maximum_roll:
     # Make the request
     patrick_logger.log_it('INFO: Attempting to post the content', 2)
-    the_client.create_text(the_blog_name, state="published", slug=the_slug, tags=normal_tags + temporary_tags, title=the_title, tweet=the_title + ' [URL]', body=the_content)
+    the_lines = ["<p>" + the_line.strip() + "</p>" for the_line in the_content.split('\n\n')]
+    patrick_logger.log_it("the_lines: " + pprint.pformat(the_lines))
+    the_content = "\n\n".join(the_lines)
+    patrick_logger.log_it("the_content: \n\n" + the_content)
+    blog_url = the_client.post('user/info')
+    blog_url = blog_url['user']['blogs'][0]['url']
+    the_status = the_client.post('post', blog_url=blog_url, params={'type': 'text', 'tags': normal_tags + temporary_tags, 'title': the_title, 'body': the_content})
+    patrick_logger.log_it('INFO: the_status is: ' + pprint.pformat(the_status), 2)
     patrick_logger.log_it('INFO: the_client is: ' + pprint.pformat(the_client), 2)
     # Empty the existing content file.
     try:
