@@ -1,0 +1,15 @@
+* Download Project Gutenberg etext #5159 from http://www.gutenberg.org/files/5159/5159-0.txt.
+	* This patch is created based on the version of July 20, 2014.
+    * Alas, for some unfathomable reason, Project Gutenberg prevents the Wayback Machine from archiving their files,so I haven't created an archive of this particular version, but the patch file is reasonably likely to work with other versions if they're not particularly different.
+
+* Unzip the patch file from CelticLiterature.patch.bz2 using the bzip2 program.
+* Apply the patch with the Unix patch command:
+
+     patch 5159-0.txt CelticLiterature.patch
+
+* Compile the modified patch file into chains with dadadodo:
+
+     dadadodo -w 10000 -o CelticLiterature.dat -c 1 CelticLiterature.txt
+
+
+Why don't I just redistribute the Celtic Literature file directly? Because they're Project Gutenberg eBooks, and Project Gutenberg doesn't allow non-verbatim copies of their ebooks. Instead, I rely on you to find the original file, then apply a patch to it.
