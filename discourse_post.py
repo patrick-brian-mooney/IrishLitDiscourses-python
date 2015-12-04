@@ -11,10 +11,10 @@ import patrick_logger # From https://github.com/patrick-brian-mooney/personal-li
 
 # OK, set up the constants we'll need.
 the_client = Tumblpy(
-   'FILL ME IN', #consumer_key
-   'FILL ME IN', #consumer_secret
-   'FILL ME IN', #token_key
-   'FILL ME IN' #token_secret
+  'FILL ME IN',  #consumer_key
+  'FILL ME IN',  #consumer_secret
+  'FILL ME IN',  #token_key
+  'FILL ME IN'   #token_secret
 )
 
 def post_to_tumblr(**kargs):
