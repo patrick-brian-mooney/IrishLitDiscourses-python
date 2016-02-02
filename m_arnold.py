@@ -23,8 +23,9 @@ import pprint
 import sys
 import subprocess
 
-from discourse_post import post_to_tumblr
-import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
+import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
+import social_media      # From https://github.com/patrick-brian-mooney/personal-library
+from social_media_auth import Irish_lit_discourses_client
 
 # Set up default values
 patrick_logger.verbosity_level = 2
@@ -53,6 +54,6 @@ the_content = "\n\n".join(the_lines)
 patrick_logger.log_it('INFO: Attempting to post the content', 2)
 patrick_logger.log_it("the_content: \n\n" + the_content)
 
-post_to_tumblr(type='text', tags=the_tags, title=the_title, body=the_content)
+the_status = social_media.tumblr_text_post(Irish_lit_discourses_client, the_tags, the_title, the_content)
 
 patrick_logger.log_it('INFO: We\'re done', 2)
