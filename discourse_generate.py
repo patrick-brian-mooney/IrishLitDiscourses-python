@@ -19,8 +19,9 @@ import random
 import pprint
 import sys
 
-from discourse_post import post_to_tumblr
-import patrick_logger # From https://github.com/patrick-brian-mooney/personal-library
+import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
+import social_media      # From https://github.com/patrick-brian-mooney/personal-library
+from social_media_auth import Irish_lit_discourses_client
 
 # Set up default values
 patrick_logger.verbosity_level = 3
@@ -57,7 +58,7 @@ except IOError:
 
 the_maximum_roll = weighted_probability(len(the_content))
 the_dice_roll = random.random()
-patrick_logger.log_it('INFO: Length of content is ' + str(len(the_content)) + '\n   and the dice roll was ' + str(the_dice_roll) + '\n   And the score necessary to post at that length is ' + str(the_maximum_roll), 2)
+patrick_logger.log_it('INFO: Length of content is ' + str(len(the_content)) + '\n   and the dice roll was ' + str(the_dice_roll) + '\n   And the maximum score to post at that length is ' + str(the_maximum_roll), 2)
 if the_dice_roll < the_maximum_roll:
     # Make the request
     patrick_logger.log_it('INFO: Attempting to post the content', 2)
@@ -65,7 +66,7 @@ if the_dice_roll < the_maximum_roll:
     patrick_logger.log_it("the_lines: " + pprint.pformat(the_lines))
     the_content = "\n\n".join(the_lines)
     patrick_logger.log_it("the_content: \n\n" + the_content)
-    post_to_tumblr(type='text', tags=normal_tags + temporary_tags, title=the_title, body=the_content)
+    the_status = social_media.tumblr_text_post(Irish_lit_discourses_client, normal_tags + temporary_tags, the_title, the_content)
     # Empty the existing content file.
     try:
         patrick_logger.log_it('INFO: Opening the file for writing', 2)
@@ -77,7 +78,6 @@ if the_dice_roll < the_maximum_roll:
     except IOError:
         patrick_logger.log_it('ERROR: unable to fully empty ' + the_content_path, 0)
         patrick_logger.log_it('... the_file is' + pprint.pformat(the_file), 2)
-
 else:
     patrick_logger.log_it("INFO: Not posting; length of accumulated content is currently " + str(len(the_content)), 2)
 
