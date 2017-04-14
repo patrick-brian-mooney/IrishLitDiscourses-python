@@ -81,4 +81,4 @@ if the_dice_roll < the_maximum_roll:
 else:
     patrick_logger.log_it("INFO: Not posting; length of accumulated content is currently " + str(len(the_content)), 2)
 
-patrick_logger.log_it('INFO: We\'re done', 2)
+patrick_logger.log_it("INFO: We're done", 2)
