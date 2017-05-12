@@ -42,7 +42,7 @@ def weighted_probability(the_length):
 the_title = "Discourse of " + datetime.date.today().strftime("%A, %d %B %Y")
 the_blog_name = "AutoIrishLitDiscourses"
 the_content_path = "/150/extras.txt"
-normal_tags = ['Irish literature', 'automatically generated text', 'Patrick Mooney', 'dadadodo']
+normal_tags = ['Irish literature', 'automatically generated text', 'Patrick Mooney', 'Python', 'Markov chains']
 temporary_tags = []
 the_content = ''
 
@@ -66,7 +66,8 @@ if the_dice_roll < the_maximum_roll:
     patrick_logger.log_it("the_lines: " + pprint.pformat(the_lines))
     the_content = "\n\n".join(the_lines)
     patrick_logger.log_it("the_content: \n\n" + the_content)
-    the_status = social_media.tumblr_text_post(Irish_lit_discourses_client, normal_tags + temporary_tags, the_title, the_content)
+    the_status, the_tumblr_data = social_media.tumblr_text_post(Irish_lit_discourses_client, ', '.join(normal_tags + temporary_tags),
+                                                                the_title, the_content)
     # Empty the existing content file.
     try:
         patrick_logger.log_it('INFO: Opening the file for writing', 2)
