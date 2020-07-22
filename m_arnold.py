@@ -17,7 +17,7 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 
 import datetime, random, pprint, sys, subprocess
 
-import patrick_logger           # From https://github.com/patrick-brian-mooney/personal-library
+import logger           # From https://github.com/patrick-brian-mooney/personal-library
 import social_media             # From https://github.com/patrick-brian-mooney/personal-library
 
 from social_media_auth import Irish_lit_discourses_client   # Unshared module with my authontication constants
@@ -26,12 +26,12 @@ import text_generator as tg     # https://github.com/patrick-brian-mooney/markov
 
 
 # Set up default values
-patrick_logger.verbosity_level = 2
+logger.verbosity_level = 2
 
 
 def print_usage():
     """Print the docstring as a usage message to stdout"""
-    patrick_logger.log_it("INFO: print_usage() was called")
+    logger.log_it("INFO: print_usage() was called")
     print(__doc__)
 
 
@@ -41,7 +41,7 @@ the_content_path = "/150/extras.txt"
 the_tags = ['Matthew Arnold', 'Celtic Literature', 'guest lecture', 'Irish literature', 'automatically generated text', 'Patrick Mooney', 'Python', 'Markov chains']
 the_content = ''
 
-patrick_logger.log_it('INFO: Constants and variables set up; generating content', 2)
+logger.log_it('INFO: Constants and variables set up; generating content', 2)
 
 lecture_length = random.randint(80, 120)
 the_content = tg.TextGenerator('Matthew Arnold generator', training_texts='/IrishLitDiscourses/sources/m.arnold/CelticLiterature.txt',
@@ -49,9 +49,9 @@ the_content = tg.TextGenerator('Matthew Arnold generator', training_texts='/Iris
 
 the_lines = ["<p>%s</p>" % the_line.strip() for the_line in the_content.split('\n\n')]
 the_content = "\n\n".join(the_lines)
-patrick_logger.log_it('INFO: Attempting to post the content', 2)
-patrick_logger.log_it("the_content: \n\n" + the_content)
+logger.log_it('INFO: Attempting to post the content', 2)
+logger.log_it("the_content: \n\n" + the_content)
 
 the_status, the_tumblr_data = social_media.tumblr_text_post(Irish_lit_discourses_client, the_tags, the_title, the_content)
 
-patrick_logger.log_it('INFO: We\'re done', 2)
+logger.log_it('INFO: We\'re done', 2)
